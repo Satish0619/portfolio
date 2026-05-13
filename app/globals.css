@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+.dark {
+  --foreground: 245 245 250;
+  --background: 8 8 20;
+}
+
+.light {
+  --foreground: 17 22 38;
+  --background: 248 250 255;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #6366f1, #06b6d4);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #818cf8, #22d3ee);
+}
+
+/* Selection */
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+  color: white;
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 via-fuchsia-400 to-accent-400;
+  }
+
+  .glass {
+    @apply backdrop-blur-xl border;
+    background-color: rgb(var(--foreground) / 0.05);
+    border-color: rgb(var(--foreground) / 0.1);
+  }
+
+  .glass-strong {
+    @apply backdrop-blur-2xl border;
+    background-color: rgb(var(--foreground) / 0.07);
+    border-color: rgb(var(--foreground) / 0.1);
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium text-white
+      bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-500 hover:to-accent-400
+      shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .btn-ghost {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
+      border backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5;
+    background-color: rgb(var(--foreground) / 0.05);
+    border-color: rgb(var(--foreground) / 0.15);
+  }
+  .btn-ghost:hover {
+    background-color: rgb(var(--foreground) / 0.1);
+  }
+
+  .section-padding {
+    @apply py-24 px-6 md:px-10 lg:px-20 max-w-7xl mx-auto;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium;
+    background-color: rgb(var(--foreground) / 0.05);
+    border-color: rgb(var(--foreground) / 0.1);
+  }
+
+  .card-glow {
+    @apply relative overflow-hidden rounded-2xl glass transition-all duration-500;
+  }
+
+  .card-glow::before {
+    content: "";
+    @apply absolute inset-0 -z-10 opacity-0 transition-opacity duration-500;
+    background: radial-gradient(
+      600px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(99, 102, 241, 0.18),
+      transparent 40%
+    );
+  }
+
+  .card-glow:hover::before {
+    @apply opacity-100;
+  }
+}
+
+/* Animated grid background — adapts to theme via --foreground */
+.grid-bg {
+  background-image: linear-gradient(rgb(var(--foreground) / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--foreground) / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 60%, transparent 100%);
+}
+
+/* Typing caret */
+.typing-caret::after {
+  content: "|";
+  margin-left: 2px;
+  animation: blink 1s steps(1) infinite;
+  color: rgb(167 139 250);
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
